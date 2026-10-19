@@ -17,3 +17,6 @@ repair-audit/*.json
 repair-audit/*.png
 repair-audit/*credentials*
 .DS_Store
+
+# Private migration exports and deployment bundles
+.migration/

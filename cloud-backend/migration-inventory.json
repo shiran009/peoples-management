@@ -1,0 +1,484 @@
+{
+  "source": "Local MySQL hr_onboarding",
+  "targetRegion": "ap-southeast-2",
+  "authApi": "https://g8d9gmzyg5.execute-api.ap-southeast-2.amazonaws.com",
+  "migratedFeatures": [
+    "login",
+    "account verification",
+    "password change",
+    "permission snapshots"
+  ],
+  "migrationComplete": false,
+  "tables": [
+    {
+      "table": "attendance_exceptions",
+      "rows": 11
+    },
+    {
+      "table": "attendance_raw_logs",
+      "rows": 1878
+    },
+    {
+      "table": "attendance_records",
+      "rows": 1290
+    },
+    {
+      "table": "attendance_roster_assignments",
+      "rows": 0
+    },
+    {
+      "table": "attendance_roster_calendars",
+      "rows": 33
+    },
+    {
+      "table": "attendance_roster_group_shifts",
+      "rows": 3
+    },
+    {
+      "table": "attendance_roster_groups",
+      "rows": 2
+    },
+    {
+      "table": "attendance_roster_repair_backups",
+      "rows": 852
+    },
+    {
+      "table": "attendance_shifts",
+      "rows": 12
+    },
+    {
+      "table": "calendarday",
+      "rows": 1
+    },
+    {
+      "table": "calendargroup",
+      "rows": 1
+    },
+    {
+      "table": "contracts",
+      "rows": 1
+    },
+    {
+      "table": "daytype",
+      "rows": 1
+    },
+    {
+      "table": "designations",
+      "rows": 52
+    },
+    {
+      "table": "documents",
+      "rows": 14
+    },
+    {
+      "table": "earned_leaves",
+      "rows": 0
+    },
+    {
+      "table": "eim_attachment_types",
+      "rows": 13
+    },
+    {
+      "table": "eim_audit_logs",
+      "rows": 0
+    },
+    {
+      "table": "eim_benefit_salary_grades",
+      "rows": 0
+    },
+    {
+      "table": "eim_benefits",
+      "rows": 11
+    },
+    {
+      "table": "eim_blood_groups",
+      "rows": 8
+    },
+    {
+      "table": "eim_companies",
+      "rows": 2
+    },
+    {
+      "table": "eim_corporate_titles",
+      "rows": 26
+    },
+    {
+      "table": "eim_cost_centres",
+      "rows": 7
+    },
+    {
+      "table": "eim_currencies",
+      "rows": 13
+    },
+    {
+      "table": "eim_dynamic_fields",
+      "rows": 1
+    },
+    {
+      "table": "eim_employee_categories",
+      "rows": 8
+    },
+    {
+      "table": "eim_employee_groups",
+      "rows": 5
+    },
+    {
+      "table": "eim_employee_titles",
+      "rows": 10
+    },
+    {
+      "table": "eim_extracurricular_categories",
+      "rows": 6
+    },
+    {
+      "table": "eim_extracurricular_types",
+      "rows": 8
+    },
+    {
+      "table": "eim_functional_roles",
+      "rows": 9
+    },
+    {
+      "table": "eim_functions",
+      "rows": 8
+    },
+    {
+      "table": "eim_genders",
+      "rows": 2
+    },
+    {
+      "table": "eim_geography",
+      "rows": 8
+    },
+    {
+      "table": "eim_hierarchy_config",
+      "rows": 6
+    },
+    {
+      "table": "eim_hierarchy_settings",
+      "rows": 1
+    },
+    {
+      "table": "eim_job_profiles",
+      "rows": 33
+    },
+    {
+      "table": "eim_languages",
+      "rows": 9
+    },
+    {
+      "table": "eim_locations",
+      "rows": 4
+    },
+    {
+      "table": "eim_marital_statuses",
+      "rows": 6
+    },
+    {
+      "table": "eim_membership_types",
+      "rows": 6
+    },
+    {
+      "table": "eim_nationalities",
+      "rows": 10
+    },
+    {
+      "table": "eim_proficiency_levels",
+      "rows": 8
+    },
+    {
+      "table": "eim_qual_classifications",
+      "rows": 8
+    },
+    {
+      "table": "eim_qual_types",
+      "rows": 9
+    },
+    {
+      "table": "eim_quals",
+      "rows": 12
+    },
+    {
+      "table": "eim_rating_methods",
+      "rows": 6
+    },
+    {
+      "table": "eim_relationship_types",
+      "rows": 11
+    },
+    {
+      "table": "eim_religions",
+      "rows": 7
+    },
+    {
+      "table": "eim_salary_grades",
+      "rows": 10
+    },
+    {
+      "table": "eim_statutory_classifications",
+      "rows": 6
+    },
+    {
+      "table": "eim_structure_history",
+      "rows": 0
+    },
+    {
+      "table": "eim_structures",
+      "rows": 18
+    },
+    {
+      "table": "eim_subjects",
+      "rows": 10
+    },
+    {
+      "table": "employee_information_audit",
+      "rows": 0
+    },
+    {
+      "table": "employee_information_audit_log",
+      "rows": 0
+    },
+    {
+      "table": "employee_information_audit_logs",
+      "rows": 95
+    },
+    {
+      "table": "employee_information_bank_details",
+      "rows": 30
+    },
+    {
+      "table": "employee_information_contact_details",
+      "rows": 31
+    },
+    {
+      "table": "employee_information_employee_attachments",
+      "rows": 0
+    },
+    {
+      "table": "employee_information_employees",
+      "rows": 28
+    },
+    {
+      "table": "employee_information_personal_details",
+      "rows": 32
+    },
+    {
+      "table": "employee_information_resignation_details",
+      "rows": 0
+    },
+    {
+      "table": "employee_information_workstation_details",
+      "rows": 32
+    },
+    {
+      "table": "employee_profile_extras",
+      "rows": 0
+    },
+    {
+      "table": "employee_requests",
+      "rows": 0
+    },
+    {
+      "table": "employee_salary_histories",
+      "rows": 5
+    },
+    {
+      "table": "employment_types",
+      "rows": 6
+    },
+    {
+      "table": "holidaycalendar",
+      "rows": 1
+    },
+    {
+      "table": "hr_assistant_actions",
+      "rows": 646
+    },
+    {
+      "table": "hr_assistant_changes",
+      "rows": 0
+    },
+    {
+      "table": "hr_assistant_conversations",
+      "rows": 641
+    },
+    {
+      "table": "hr_assistant_extensions",
+      "rows": 0
+    },
+    {
+      "table": "hr_assistant_field_values",
+      "rows": 0
+    },
+    {
+      "table": "hr_assistant_messages",
+      "rows": 753
+    },
+    {
+      "table": "hr_assistant_read_updates",
+      "rows": 14
+    },
+    {
+      "table": "hr_assistant_settings",
+      "rows": 1
+    },
+    {
+      "table": "hr_performance_audit",
+      "rows": 90
+    },
+    {
+      "table": "hr_performance_cycles",
+      "rows": 0
+    },
+    {
+      "table": "hr_performance_library",
+      "rows": 1
+    },
+    {
+      "table": "hr_performance_notifications",
+      "rows": 0
+    },
+    {
+      "table": "hr_performance_reviews",
+      "rows": 0
+    },
+    {
+      "table": "hr_performance_templates",
+      "rows": 1
+    },
+    {
+      "table": "hr_repair_migrations",
+      "rows": 1
+    },
+    {
+      "table": "invites",
+      "rows": 1
+    },
+    {
+      "table": "leave_applications",
+      "rows": 45
+    },
+    {
+      "table": "leave_approval_history",
+      "rows": 20
+    },
+    {
+      "table": "leave_entitlements",
+      "rows": 140
+    },
+    {
+      "table": "leave_group_types",
+      "rows": 3
+    },
+    {
+      "table": "leave_groups",
+      "rows": 2
+    },
+    {
+      "table": "leave_rule_scripts",
+      "rows": 0
+    },
+    {
+      "table": "leave_types",
+      "rows": 5
+    },
+    {
+      "table": "leave_years",
+      "rows": 1
+    },
+    {
+      "table": "onboarding_profiles",
+      "rows": 1
+    },
+    {
+      "table": "performance_360_feedback",
+      "rows": 0
+    },
+    {
+      "table": "performance_360_requests",
+      "rows": 1
+    },
+    {
+      "table": "performance_audit_logs",
+      "rows": 14
+    },
+    {
+      "table": "performance_cycle_eligible_employees",
+      "rows": 0
+    },
+    {
+      "table": "performance_cycles",
+      "rows": 7
+    },
+    {
+      "table": "performance_development_actions",
+      "rows": 0
+    },
+    {
+      "table": "performance_development_plans",
+      "rows": 5
+    },
+    {
+      "table": "performance_feedback",
+      "rows": 5
+    },
+    {
+      "table": "performance_goal_checkins",
+      "rows": 5
+    },
+    {
+      "table": "performance_goals",
+      "rows": 15
+    },
+    {
+      "table": "performance_review_answers",
+      "rows": 10
+    },
+    {
+      "table": "performance_review_history",
+      "rows": 0
+    },
+    {
+      "table": "performance_review_template_question_options",
+      "rows": 0
+    },
+    {
+      "table": "performance_review_template_questions",
+      "rows": 6
+    },
+    {
+      "table": "performance_review_template_sections",
+      "rows": 3
+    },
+    {
+      "table": "performance_review_templates",
+      "rows": 1
+    },
+    {
+      "table": "performance_reviews",
+      "rows": 11
+    },
+    {
+      "table": "reporting_hierarchy_audit",
+      "rows": 24
+    },
+    {
+      "table": "reporting_hierarchy_levels",
+      "rows": 8
+    },
+    {
+      "table": "reporting_relationships",
+      "rows": 120
+    },
+    {
+      "table": "user_module_permissions",
+      "rows": 114
+    },
+    {
+      "table": "users",
+      "rows": 29
+    }
+  ],
+  "totalTables": 117,
+  "totalRows": 7480
+}

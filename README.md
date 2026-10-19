@@ -1,54 +1,49 @@
 # Peoples Management
 
-HR platform with onboarding, employee information, reporting hierarchy, leave,
-attendance and rosters, performance reviews, access control, and an HR assistant.
+HR application with a React frontend and an AWS DynamoDB backend under active migration.
 
-## Project folders
+## Current connection
 
-- `frontend/`: React browser interface, optional Electron desktop app, and UI tests.
-- `backend/`: Express API, workflow services, database migrations, and integration tests.
-- `database/`: MySQL schema and a manifest of tables and relationships.
+The hosted Amplify frontend uses https://g8d9gmzyg5.execute-api.ap-southeast-2.amazonaws.com.
+The AWS API uses DynamoDB. Its health response reports storageReady=true and
+migrationComplete=false. All 117 source tables were imported as peopleshr-* tables.
+Authentication, people/profile and dashboard reads, and selected EIM configuration
+operations have been migrated. Other workflows are not yet supported by the cloud API.
 
-## Local setup
+## Local development with DynamoDB
 
-Use a current Node.js LTS release and MySQL. Install dependencies separately:
+Use the codex/dynamodb-backend branch until the complete backend migration is merged.
+Install a supported Node.js LTS release. Each developer must obtain separately approved,
+scoped AWS access and configure their own AWS profile; cloning this repo grants no access.
+Never commit AWS credentials or share production secrets. Prefer separate development tables.
 
 ```powershell
-cd backend
-npm install
+# Terminal 1
+cd cloud-backend
+npm ci
 Copy-Item .env.example .env
-```
+# Configure your AWS profile, deployed table names, and your own local JWT secret.
+npm start
 
-Set your database URL, a private JWT secret, and SMTP credentials in `backend/.env`.
-Import `database/schema.sql` into an empty MySQL database before starting the API.
-See `database/README.md` for import details.
-
-```powershell
-# Terminal 1, from backend/
-npm run dev
-
-# Terminal 2, from frontend/
-npm install
+# Terminal 2
+cd frontend
+npm ci --legacy-peer-deps
 npm run dev
 ```
 
-Open `http://localhost:5174`. The API runs on `http://localhost:3001`, with a
-health endpoint at `/health`. `frontend/.env.example` documents the API URL.
+Frontend: http://localhost:5174. Local DynamoDB backend: http://localhost:3002.
+The frontend defaults to this backend; VITE_API_URL overrides it.
+Existing ignored local .env files may still contain older settings: review them privately.
 
-For a separate demo database, `npm run db:seed` from `backend/` creates demo
-accounts and reference records. Run seed scripts only when you intend to add demo data.
+## Migration boundary
 
-## Build checks
+cloud-backend/ is the DynamoDB implementation. backend/ and database/ contain the
+legacy MySQL workflows and schema retained until their replacements are complete.
+They are not the default setup. Do not uninstall MySQL or delete source data yet.
+Employee writes, leave/attendance workflows, documents, and other remaining modules
+need implementation and verification before full SQL removal. See cloud-backend/README.md.
 
-```powershell
-# backend/
-npm run build
+## Verification
 
-# frontend/
-npx tsc --noEmit
-npm run build
-```
-
-The repository includes source, configuration examples, scripts, and tests.
-Local secrets, installed dependencies, generated builds, database backups,
-employee uploads, and live audit exports remain on the local machine.
+Run npm test in cloud-backend/ and npm run build in frontend/.
+Secrets, exports, backups, installed dependencies and generated builds are excluded from Git.

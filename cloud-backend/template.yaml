@@ -1,0 +1,207 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Peoples Management DynamoDB auth pilot - not the complete HR backend
+Parameters:
+  DevelopmentOrigin:
+    Type: String
+    Default: ''
+    AllowedValues: ['', 'http://localhost:5174']
+  EnableMasterData:
+    Type: String
+    Default: 'false'
+    AllowedValues: ['false', 'true']
+  HRTablePrefix:
+    Type: String
+    Default: ''
+    AllowedValues: ['', 'peopleshr-']
+  DataTableName:
+    Type: String
+    Default: peoples-management-hr-data-v1
+  FrontendOrigin:
+    Type: String
+    Default: https://main.d2lciijqwiwovz.amplifyapp.com
+    AllowedPattern: 'https://[a-zA-Z0-9.-]+'
+Conditions:
+  DevelopmentOriginEnabled: !Equals [!Ref DevelopmentOrigin, 'http://localhost:5174']
+  MasterDataEnabled: !Equals [!Ref EnableMasterData, 'true']
+  UseSeparateTables: !Equals [!Ref HRTablePrefix, 'peopleshr-']
+Resources:
+  AuthTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: pk
+          AttributeType: S
+      KeySchema:
+        - AttributeName: pk
+          KeyType: HASH
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      SSESpecification:
+        SSEEnabled: true
+  JwtSecret:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      GenerateSecretString:
+        SecretStringTemplate: '{}'
+        GenerateStringKey: secret
+        PasswordLength: 64
+        ExcludePunctuation: true
+  HttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      StageName: '$default'
+      DefaultRouteSettings:
+        ThrottlingBurstLimit: 20
+        ThrottlingRateLimit: 10
+      CorsConfiguration:
+        AllowOrigins:
+          - !Ref FrontendOrigin
+          - !If [DevelopmentOriginEnabled, !Ref DevelopmentOrigin, !Ref 'AWS::NoValue']
+        AllowMethods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+        AllowHeaders: [Content-Type, Authorization, Cache-Control, Pragma, Expires]
+        MaxAge: 300
+  AuthFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: nodejs22.x
+      CodeUri: .
+      Handler: src/handler.handler
+      Timeout: 15
+      MemorySize: 256
+      Environment:
+        Variables:
+          MASTER_DATA_ENABLED: !Ref EnableMasterData
+          HR_TABLE_PREFIX: !Ref HRTablePrefix
+          DATA_TABLE: !Ref DataTableName
+          AUTH_TABLE: !Ref AuthTable
+          JWT_SECRET: !Join ['', ['{{resolve:secretsmanager:', !Ref JwtSecret, ':SecretString:secret}}']]
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action: [dynamodb:GetItem, dynamodb:UpdateItem]
+              Resource: !GetAtt AuthTable.Arn
+            - Effect: Allow
+              Action: [dynamodb:GetItem, dynamodb:Query]
+              Resource: !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${DataTableName}'
+            - !If
+              - UseSeparateTables
+              - Effect: Allow
+                Action: [dynamodb:Scan]
+                Resource:
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${HRTablePrefix}users'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${HRTablePrefix}employee_information_employees'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${HRTablePrefix}employee_information_personal_details'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${HRTablePrefix}eim_structures'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${HRTablePrefix}designations'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${HRTablePrefix}onboarding_profiles'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${HRTablePrefix}invites'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${HRTablePrefix}contracts'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${HRTablePrefix}documents'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${HRTablePrefix}attendance_records'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${HRTablePrefix}leave_applications'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${HRTablePrefix}attendance_exceptions'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${HRTablePrefix}attendance_roster_assignments'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${HRTablePrefix}attendance_roster_groups'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${HRTablePrefix}attendance_roster_group_shifts'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${HRTablePrefix}attendance_shifts'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${HRTablePrefix}hr_performance_reviews'
+              - !Ref AWS::NoValue
+            - !If
+              - MasterDataEnabled
+              - Effect: Allow
+                Action: [dynamodb:Scan, dynamodb:GetItem]
+                Resource:
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_companies'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_locations'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_structures'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_cost_centres'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-designations'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_salary_grades'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_corporate_titles'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-employment_types'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_employee_titles'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_functions'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_functional_roles'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_statutory_classifications'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_qual_types'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_quals'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_qual_classifications'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_subjects'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_rating_methods'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_languages'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_proficiency_levels'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_genders'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_marital_statuses'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_nationalities'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_religions'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_blood_groups'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_relationship_types'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_attachment_types'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_currencies'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_membership_types'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_extracurricular_categories'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_extracurricular_types'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_geography'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_benefits'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_dynamic_fields'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_hierarchy_config'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_audit_logs'
+              - !Ref AWS::NoValue
+            - !If
+              - MasterDataEnabled
+              - Effect: Allow
+                Action: [dynamodb:PutItem, dynamodb:DeleteItem]
+                Condition:
+                  StringEquals:
+                    dynamodb:EnclosingOperation: TransactWriteItems
+                Resource:
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_genders'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_marital_statuses'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_nationalities'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_religions'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_blood_groups'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_relationship_types'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_currencies'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-employment_types'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_employee_titles'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_languages'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_qual_classifications'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_rating_methods'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_proficiency_levels'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_membership_types'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_extracurricular_categories'
+              - !Ref AWS::NoValue
+            - !If
+              - MasterDataEnabled
+              - Effect: Allow
+                Action: [dynamodb:PutItem]
+                Condition:
+                  StringEquals:
+                    dynamodb:EnclosingOperation: TransactWriteItems
+                Resource: !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_audit_logs'
+              - !Ref AWS::NoValue
+            - !If
+              - MasterDataEnabled
+              - Effect: Allow
+                Action: [dynamodb:UpdateItem, dynamodb:DeleteItem, dynamodb:ConditionCheckItem]
+                Resource: !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${DataTableName}'
+                Condition:
+                  ForAllValues:StringEquals:
+                    dynamodb:LeadingKeys: ['_system']
+              - !Ref AWS::NoValue
+      Events:
+        Api:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /{proxy+}
+            Method: ANY
+Outputs:
+  PilotApiUrl:
+    Value: !Join ['', ['https://', !Ref HttpApi, '.execute-api.', !Ref 'AWS::Region', '.', !Ref 'AWS::URLSuffix']]
+  AuthTableName:
+    Value: !Ref AuthTable

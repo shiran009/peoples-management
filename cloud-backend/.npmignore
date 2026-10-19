@@ -1,0 +1,7 @@
+.env
+.env.*
+.aws-sam/
+samconfig.toml
+scripts/
+test/
+*-smoke.cjs

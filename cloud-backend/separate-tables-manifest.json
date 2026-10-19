@@ -1,0 +1,587 @@
+[
+  {
+    "source": "attendance_exceptions",
+    "table": "peopleshr-attendance_exceptions",
+    "rows": 11
+  },
+  {
+    "source": "attendance_raw_logs",
+    "table": "peopleshr-attendance_raw_logs",
+    "rows": 1878
+  },
+  {
+    "source": "attendance_records",
+    "table": "peopleshr-attendance_records",
+    "rows": 1290
+  },
+  {
+    "source": "attendance_roster_assignments",
+    "table": "peopleshr-attendance_roster_assignments",
+    "rows": 0
+  },
+  {
+    "source": "attendance_roster_calendars",
+    "table": "peopleshr-attendance_roster_calendars",
+    "rows": 33
+  },
+  {
+    "source": "attendance_roster_group_shifts",
+    "table": "peopleshr-attendance_roster_group_shifts",
+    "rows": 3
+  },
+  {
+    "source": "attendance_roster_groups",
+    "table": "peopleshr-attendance_roster_groups",
+    "rows": 2
+  },
+  {
+    "source": "attendance_roster_repair_backups",
+    "table": "peopleshr-attendance_roster_repair_backups",
+    "rows": 852
+  },
+  {
+    "source": "attendance_shifts",
+    "table": "peopleshr-attendance_shifts",
+    "rows": 12
+  },
+  {
+    "source": "calendarday",
+    "table": "peopleshr-calendarday",
+    "rows": 1
+  },
+  {
+    "source": "calendargroup",
+    "table": "peopleshr-calendargroup",
+    "rows": 1
+  },
+  {
+    "source": "contracts",
+    "table": "peopleshr-contracts",
+    "rows": 1
+  },
+  {
+    "source": "daytype",
+    "table": "peopleshr-daytype",
+    "rows": 1
+  },
+  {
+    "source": "designations",
+    "table": "peopleshr-designations",
+    "rows": 52
+  },
+  {
+    "source": "documents",
+    "table": "peopleshr-documents",
+    "rows": 14
+  },
+  {
+    "source": "earned_leaves",
+    "table": "peopleshr-earned_leaves",
+    "rows": 0
+  },
+  {
+    "source": "eim_attachment_types",
+    "table": "peopleshr-eim_attachment_types",
+    "rows": 13
+  },
+  {
+    "source": "eim_audit_logs",
+    "table": "peopleshr-eim_audit_logs",
+    "rows": 0
+  },
+  {
+    "source": "eim_benefit_salary_grades",
+    "table": "peopleshr-eim_benefit_salary_grades",
+    "rows": 0
+  },
+  {
+    "source": "eim_benefits",
+    "table": "peopleshr-eim_benefits",
+    "rows": 11
+  },
+  {
+    "source": "eim_blood_groups",
+    "table": "peopleshr-eim_blood_groups",
+    "rows": 8
+  },
+  {
+    "source": "eim_companies",
+    "table": "peopleshr-eim_companies",
+    "rows": 2
+  },
+  {
+    "source": "eim_corporate_titles",
+    "table": "peopleshr-eim_corporate_titles",
+    "rows": 26
+  },
+  {
+    "source": "eim_cost_centres",
+    "table": "peopleshr-eim_cost_centres",
+    "rows": 7
+  },
+  {
+    "source": "eim_currencies",
+    "table": "peopleshr-eim_currencies",
+    "rows": 13
+  },
+  {
+    "source": "eim_dynamic_fields",
+    "table": "peopleshr-eim_dynamic_fields",
+    "rows": 1
+  },
+  {
+    "source": "eim_employee_categories",
+    "table": "peopleshr-eim_employee_categories",
+    "rows": 8
+  },
+  {
+    "source": "eim_employee_groups",
+    "table": "peopleshr-eim_employee_groups",
+    "rows": 5
+  },
+  {
+    "source": "eim_employee_titles",
+    "table": "peopleshr-eim_employee_titles",
+    "rows": 10
+  },
+  {
+    "source": "eim_extracurricular_categories",
+    "table": "peopleshr-eim_extracurricular_categories",
+    "rows": 6
+  },
+  {
+    "source": "eim_extracurricular_types",
+    "table": "peopleshr-eim_extracurricular_types",
+    "rows": 8
+  },
+  {
+    "source": "eim_functional_roles",
+    "table": "peopleshr-eim_functional_roles",
+    "rows": 9
+  },
+  {
+    "source": "eim_functions",
+    "table": "peopleshr-eim_functions",
+    "rows": 8
+  },
+  {
+    "source": "eim_genders",
+    "table": "peopleshr-eim_genders",
+    "rows": 2
+  },
+  {
+    "source": "eim_geography",
+    "table": "peopleshr-eim_geography",
+    "rows": 8
+  },
+  {
+    "source": "eim_hierarchy_config",
+    "table": "peopleshr-eim_hierarchy_config",
+    "rows": 6
+  },
+  {
+    "source": "eim_hierarchy_settings",
+    "table": "peopleshr-eim_hierarchy_settings",
+    "rows": 1
+  },
+  {
+    "source": "eim_job_profiles",
+    "table": "peopleshr-eim_job_profiles",
+    "rows": 33
+  },
+  {
+    "source": "eim_languages",
+    "table": "peopleshr-eim_languages",
+    "rows": 9
+  },
+  {
+    "source": "eim_locations",
+    "table": "peopleshr-eim_locations",
+    "rows": 4
+  },
+  {
+    "source": "eim_marital_statuses",
+    "table": "peopleshr-eim_marital_statuses",
+    "rows": 6
+  },
+  {
+    "source": "eim_membership_types",
+    "table": "peopleshr-eim_membership_types",
+    "rows": 6
+  },
+  {
+    "source": "eim_nationalities",
+    "table": "peopleshr-eim_nationalities",
+    "rows": 10
+  },
+  {
+    "source": "eim_proficiency_levels",
+    "table": "peopleshr-eim_proficiency_levels",
+    "rows": 8
+  },
+  {
+    "source": "eim_qual_classifications",
+    "table": "peopleshr-eim_qual_classifications",
+    "rows": 8
+  },
+  {
+    "source": "eim_qual_types",
+    "table": "peopleshr-eim_qual_types",
+    "rows": 9
+  },
+  {
+    "source": "eim_quals",
+    "table": "peopleshr-eim_quals",
+    "rows": 12
+  },
+  {
+    "source": "eim_rating_methods",
+    "table": "peopleshr-eim_rating_methods",
+    "rows": 6
+  },
+  {
+    "source": "eim_relationship_types",
+    "table": "peopleshr-eim_relationship_types",
+    "rows": 11
+  },
+  {
+    "source": "eim_religions",
+    "table": "peopleshr-eim_religions",
+    "rows": 7
+  },
+  {
+    "source": "eim_salary_grades",
+    "table": "peopleshr-eim_salary_grades",
+    "rows": 10
+  },
+  {
+    "source": "eim_statutory_classifications",
+    "table": "peopleshr-eim_statutory_classifications",
+    "rows": 6
+  },
+  {
+    "source": "eim_structure_history",
+    "table": "peopleshr-eim_structure_history",
+    "rows": 0
+  },
+  {
+    "source": "eim_structures",
+    "table": "peopleshr-eim_structures",
+    "rows": 18
+  },
+  {
+    "source": "eim_subjects",
+    "table": "peopleshr-eim_subjects",
+    "rows": 10
+  },
+  {
+    "source": "employee_information_audit",
+    "table": "peopleshr-employee_information_audit",
+    "rows": 0
+  },
+  {
+    "source": "employee_information_audit_log",
+    "table": "peopleshr-employee_information_audit_log",
+    "rows": 0
+  },
+  {
+    "source": "employee_information_audit_logs",
+    "table": "peopleshr-employee_information_audit_logs",
+    "rows": 95
+  },
+  {
+    "source": "employee_information_bank_details",
+    "table": "peopleshr-employee_information_bank_details",
+    "rows": 30
+  },
+  {
+    "source": "employee_information_contact_details",
+    "table": "peopleshr-employee_information_contact_details",
+    "rows": 31
+  },
+  {
+    "source": "employee_information_employee_attachments",
+    "table": "peopleshr-employee_information_employee_attachments",
+    "rows": 0
+  },
+  {
+    "source": "employee_information_employees",
+    "table": "peopleshr-employee_information_employees",
+    "rows": 28
+  },
+  {
+    "source": "employee_information_personal_details",
+    "table": "peopleshr-employee_information_personal_details",
+    "rows": 32
+  },
+  {
+    "source": "employee_information_resignation_details",
+    "table": "peopleshr-employee_information_resignation_details",
+    "rows": 0
+  },
+  {
+    "source": "employee_information_workstation_details",
+    "table": "peopleshr-employee_information_workstation_details",
+    "rows": 32
+  },
+  {
+    "source": "employee_profile_extras",
+    "table": "peopleshr-employee_profile_extras",
+    "rows": 0
+  },
+  {
+    "source": "employee_requests",
+    "table": "peopleshr-employee_requests",
+    "rows": 0
+  },
+  {
+    "source": "employee_salary_histories",
+    "table": "peopleshr-employee_salary_histories",
+    "rows": 5
+  },
+  {
+    "source": "employment_types",
+    "table": "peopleshr-employment_types",
+    "rows": 6
+  },
+  {
+    "source": "holidaycalendar",
+    "table": "peopleshr-holidaycalendar",
+    "rows": 1
+  },
+  {
+    "source": "hr_assistant_actions",
+    "table": "peopleshr-hr_assistant_actions",
+    "rows": 646
+  },
+  {
+    "source": "hr_assistant_changes",
+    "table": "peopleshr-hr_assistant_changes",
+    "rows": 0
+  },
+  {
+    "source": "hr_assistant_conversations",
+    "table": "peopleshr-hr_assistant_conversations",
+    "rows": 641
+  },
+  {
+    "source": "hr_assistant_extensions",
+    "table": "peopleshr-hr_assistant_extensions",
+    "rows": 0
+  },
+  {
+    "source": "hr_assistant_field_values",
+    "table": "peopleshr-hr_assistant_field_values",
+    "rows": 0
+  },
+  {
+    "source": "hr_assistant_messages",
+    "table": "peopleshr-hr_assistant_messages",
+    "rows": 753
+  },
+  {
+    "source": "hr_assistant_read_updates",
+    "table": "peopleshr-hr_assistant_read_updates",
+    "rows": 14
+  },
+  {
+    "source": "hr_assistant_settings",
+    "table": "peopleshr-hr_assistant_settings",
+    "rows": 1
+  },
+  {
+    "source": "hr_performance_audit",
+    "table": "peopleshr-hr_performance_audit",
+    "rows": 90
+  },
+  {
+    "source": "hr_performance_cycles",
+    "table": "peopleshr-hr_performance_cycles",
+    "rows": 0
+  },
+  {
+    "source": "hr_performance_library",
+    "table": "peopleshr-hr_performance_library",
+    "rows": 1
+  },
+  {
+    "source": "hr_performance_notifications",
+    "table": "peopleshr-hr_performance_notifications",
+    "rows": 0
+  },
+  {
+    "source": "hr_performance_reviews",
+    "table": "peopleshr-hr_performance_reviews",
+    "rows": 0
+  },
+  {
+    "source": "hr_performance_templates",
+    "table": "peopleshr-hr_performance_templates",
+    "rows": 1
+  },
+  {
+    "source": "hr_repair_migrations",
+    "table": "peopleshr-hr_repair_migrations",
+    "rows": 1
+  },
+  {
+    "source": "invites",
+    "table": "peopleshr-invites",
+    "rows": 1
+  },
+  {
+    "source": "leave_applications",
+    "table": "peopleshr-leave_applications",
+    "rows": 45
+  },
+  {
+    "source": "leave_approval_history",
+    "table": "peopleshr-leave_approval_history",
+    "rows": 20
+  },
+  {
+    "source": "leave_entitlements",
+    "table": "peopleshr-leave_entitlements",
+    "rows": 140
+  },
+  {
+    "source": "leave_group_types",
+    "table": "peopleshr-leave_group_types",
+    "rows": 3
+  },
+  {
+    "source": "leave_groups",
+    "table": "peopleshr-leave_groups",
+    "rows": 2
+  },
+  {
+    "source": "leave_rule_scripts",
+    "table": "peopleshr-leave_rule_scripts",
+    "rows": 0
+  },
+  {
+    "source": "leave_types",
+    "table": "peopleshr-leave_types",
+    "rows": 5
+  },
+  {
+    "source": "leave_years",
+    "table": "peopleshr-leave_years",
+    "rows": 1
+  },
+  {
+    "source": "onboarding_profiles",
+    "table": "peopleshr-onboarding_profiles",
+    "rows": 1
+  },
+  {
+    "source": "performance_360_feedback",
+    "table": "peopleshr-performance_360_feedback",
+    "rows": 0
+  },
+  {
+    "source": "performance_360_requests",
+    "table": "peopleshr-performance_360_requests",
+    "rows": 1
+  },
+  {
+    "source": "performance_audit_logs",
+    "table": "peopleshr-performance_audit_logs",
+    "rows": 14
+  },
+  {
+    "source": "performance_cycle_eligible_employees",
+    "table": "peopleshr-performance_cycle_eligible_employees",
+    "rows": 0
+  },
+  {
+    "source": "performance_cycles",
+    "table": "peopleshr-performance_cycles",
+    "rows": 7
+  },
+  {
+    "source": "performance_development_actions",
+    "table": "peopleshr-performance_development_actions",
+    "rows": 0
+  },
+  {
+    "source": "performance_development_plans",
+    "table": "peopleshr-performance_development_plans",
+    "rows": 5
+  },
+  {
+    "source": "performance_feedback",
+    "table": "peopleshr-performance_feedback",
+    "rows": 5
+  },
+  {
+    "source": "performance_goal_checkins",
+    "table": "peopleshr-performance_goal_checkins",
+    "rows": 5
+  },
+  {
+    "source": "performance_goals",
+    "table": "peopleshr-performance_goals",
+    "rows": 15
+  },
+  {
+    "source": "performance_review_answers",
+    "table": "peopleshr-performance_review_answers",
+    "rows": 10
+  },
+  {
+    "source": "performance_review_history",
+    "table": "peopleshr-performance_review_history",
+    "rows": 0
+  },
+  {
+    "source": "performance_review_template_question_options",
+    "table": "peopleshr-performance_review_template_question_options",
+    "rows": 0
+  },
+  {
+    "source": "performance_review_template_questions",
+    "table": "peopleshr-performance_review_template_questions",
+    "rows": 6
+  },
+  {
+    "source": "performance_review_template_sections",
+    "table": "peopleshr-performance_review_template_sections",
+    "rows": 3
+  },
+  {
+    "source": "performance_review_templates",
+    "table": "peopleshr-performance_review_templates",
+    "rows": 1
+  },
+  {
+    "source": "performance_reviews",
+    "table": "peopleshr-performance_reviews",
+    "rows": 11
+  },
+  {
+    "source": "reporting_hierarchy_audit",
+    "table": "peopleshr-reporting_hierarchy_audit",
+    "rows": 24
+  },
+  {
+    "source": "reporting_hierarchy_levels",
+    "table": "peopleshr-reporting_hierarchy_levels",
+    "rows": 8
+  },
+  {
+    "source": "reporting_relationships",
+    "table": "peopleshr-reporting_relationships",
+    "rows": 120
+  },
+  {
+    "source": "user_module_permissions",
+    "table": "peopleshr-user_module_permissions",
+    "rows": 114
+  },
+  {
+    "source": "users",
+    "table": "peopleshr-users",
+    "rows": 29
+  }
+]
