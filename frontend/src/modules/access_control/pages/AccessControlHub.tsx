@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { api } from '../../../lib/api/client';
 import { Shield, Search, Loader2, Save, AlertTriangle, AlertCircle, User, Briefcase, Mail, CheckCircle } from 'lucide-react';
 
 // ── System Modules (8) ──────────────────────────────────────────────────────
@@ -14,7 +15,7 @@ const MODULES_CONFIG = [
   { id: 'self_service',          name: 'Self Service',            icon: '🙋', v: true,  c: false, e: false, d: false, a: false, x: false },
 ];
 
-const API = 'http://localhost:3001/api';
+const API = (api.defaults.baseURL || '').replace(/\/$/, '') + '/api';
 const authHeader = () => ({ 'Authorization': `Bearer ${localStorage.getItem('hr_token')}`, 'Content-Type': 'application/json' });
 
 export default function AccessControlHub() {
