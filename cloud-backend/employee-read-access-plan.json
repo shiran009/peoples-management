@@ -1,0 +1,29 @@
+{
+  "feature": "employee directory and private profile reads",
+  "tables": [
+    "peopleshr-employee_information_employees",
+    "peopleshr-employee_information_personal_details",
+    "peopleshr-employee_information_workstation_details",
+    "peopleshr-employee_information_contact_details",
+    "peopleshr-employee_information_resignation_details",
+    "peopleshr-employee_salary_histories",
+    "peopleshr-employee_information_bank_details",
+    "peopleshr-employee_profile_extras",
+    "peopleshr-user_module_permissions",
+    "peopleshr-employment_types",
+    "peopleshr-users",
+    "peopleshr-invites",
+    "peopleshr-onboarding_profiles",
+    "peopleshr-attendance_roster_assignments",
+    "peopleshr-designations"
+  ],
+  "actions": [
+    "dynamodb:Scan"
+  ],
+  "applicationScope": "self, authorized reporting subtree, admin/executive, and explicitly delegated organization view",
+  "writes": false,
+  "deletes": false,
+  "pixeltechAccess": false,
+  "enabledByDefaultInAws": false,
+  "notImplemented": "transition history source table does not exist in the imported snapshot"
+}

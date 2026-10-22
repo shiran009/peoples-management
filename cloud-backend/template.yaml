@@ -2,6 +2,18 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: Peoples Management DynamoDB auth pilot - not the complete HR backend
 Parameters:
+  EnableReportingReads:
+    Type: String
+    Default: 'false'
+    AllowedValues: ['false', 'true']
+  EnableEmployeeReads:
+    Type: String
+    Default: 'false'
+    AllowedValues: ['false', 'true']
+  EnableOnboardingWrites:
+    Type: String
+    Default: 'false'
+    AllowedValues: ['false', 'true']
   DevelopmentOrigin:
     Type: String
     Default: ''
@@ -22,6 +34,10 @@ Parameters:
     Default: https://main.d2lciijqwiwovz.amplifyapp.com
     AllowedPattern: 'https://[a-zA-Z0-9.-]+'
 Conditions:
+  ReportingReadsEnabled: !Equals [!Ref EnableReportingReads, 'true']
+  EmployeeReadsEnabled: !Equals [!Ref EnableEmployeeReads, 'true']
+  OnboardingWritesEnabled: !Equals [!Ref EnableOnboardingWrites, 'true']
+  HrWritesEnabled: !Or [!Condition MasterDataEnabled, !Condition OnboardingWritesEnabled]
   DevelopmentOriginEnabled: !Equals [!Ref DevelopmentOrigin, 'http://localhost:5174']
   MasterDataEnabled: !Equals [!Ref EnableMasterData, 'true']
   UseSeparateTables: !Equals [!Ref HRTablePrefix, 'peopleshr-']
@@ -74,6 +90,9 @@ Resources:
       MemorySize: 256
       Environment:
         Variables:
+          REPORTING_READS_ENABLED: !Ref EnableReportingReads
+          EMPLOYEE_READS_ENABLED: !Ref EnableEmployeeReads
+          ONBOARDING_WRITES_ENABLED: !Ref EnableOnboardingWrites
           MASTER_DATA_ENABLED: !Ref EnableMasterData
           HR_TABLE_PREFIX: !Ref HRTablePrefix
           DATA_TABLE: !Ref DataTableName
@@ -185,13 +204,55 @@ Resources:
                 Resource: !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-eim_audit_logs'
               - !Ref AWS::NoValue
             - !If
-              - MasterDataEnabled
+              - HrWritesEnabled
               - Effect: Allow
                 Action: [dynamodb:UpdateItem, dynamodb:DeleteItem, dynamodb:ConditionCheckItem]
                 Resource: !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${DataTableName}'
                 Condition:
                   ForAllValues:StringEquals:
                     dynamodb:LeadingKeys: ['_system']
+              - !Ref AWS::NoValue
+            - !If
+              - OnboardingWritesEnabled
+              - Effect: Allow
+                Action: [dynamodb:PutItem]
+                Condition:
+                  StringEquals:
+                    dynamodb:EnclosingOperation: TransactWriteItems
+                Resource: !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-onboarding_profiles'
+              - !Ref AWS::NoValue
+            - !If
+              - EmployeeReadsEnabled
+              - Effect: Allow
+                Action: [dynamodb:Scan]
+                Resource:
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-employee_information_employees'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-employee_information_personal_details'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-employee_information_workstation_details'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-employee_information_contact_details'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-employee_information_resignation_details'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-employee_salary_histories'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-employee_information_bank_details'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-employee_profile_extras'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-user_module_permissions'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-employment_types'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-users'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-invites'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-onboarding_profiles'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-attendance_roster_assignments'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-designations'
+              - !Ref AWS::NoValue
+            - !If
+              - ReportingReadsEnabled
+              - Effect: Allow
+                Action: [dynamodb:Scan]
+                Resource:
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-employee_information_employees'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-employee_information_personal_details'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-users'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-employee_information_workstation_details'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-reporting_hierarchy_levels'
+                  - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/peopleshr-reporting_hierarchy_audit'
               - !Ref AWS::NoValue
       Events:
         Api:

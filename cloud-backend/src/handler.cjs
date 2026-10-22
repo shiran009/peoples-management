@@ -1,5 +1,5 @@
 const { createAuthService } = require('./auth/service.cjs');
-function createHandler(service, people, checkStorage, master) {
+function createHandler(service, people, checkStorage, master, onboarding, employees, reporting) {
   let storageReadyUntil=0,storageCheck;
   return async function handler(event) {
     const method = event.requestContext?.http?.method;
@@ -37,6 +37,9 @@ function createHandler(service, people, checkStorage, master) {
         try { body = JSON.parse(raw); } catch { return response(400, { success: false, message: 'Invalid JSON' }); }
       }
       const authorization = event.headers?.authorization || event.headers?.Authorization;
+      if(reporting){const result=await require('./reporting-hierarchy/routes.cjs').routeReporting(reporting,method,path,authorization,event.queryStringParameters||{});if(result)return response(result.status,result.body)}
+      if(employees){const result=await require('./employee-information/routes.cjs').routeEmployee(employees,method,path,authorization);if(result)return response(result.status,result.body)}
+      if(onboarding&&method==='POST'&&['/api/onboarding','/api/onboarding/'].includes(path))return response(201,await onboarding.submit(authorization,body));
       if(master){
         const result=await require('./master-data/routes.cjs').routeMaster(master,method,path,authorization,body);
         if(result)return response(result.status,result.body);
@@ -63,7 +66,10 @@ exports.handler = (event) => {
     const repository=require('./data/repository.cjs').createDataRepository();
     const people=require('./people/service.cjs').createPeopleService(repository,auth);
     const master=process.env.MASTER_DATA_ENABLED==='true'?require('./master-data/service.cjs').createMasterService(require('./master-data/repository.cjs').createMasterRepository(),auth):undefined;
-    handler=createHandler(auth,people,()=>repository.probe(),master);
+    const onboarding=process.env.ONBOARDING_WRITES_ENABLED==='true'?require('./onboarding/service.cjs').createOnboardingService(require('./onboarding/repository.cjs').createOnboardingRepository(),auth):undefined;
+    const employees=process.env.EMPLOYEE_READS_ENABLED==='true'?require('./employee-information/service.cjs').createEmployeeService(require('./employee-information/repository.cjs').createEmployeeRepository(),auth):undefined;
+    const reporting=process.env.REPORTING_READS_ENABLED==='true'?require('./reporting-hierarchy/service.cjs').createReportingService(require('./reporting-hierarchy/repository.cjs').createReportingRepository(),auth):undefined;
+    handler=createHandler(auth,people,()=>repository.probe(),master,onboarding,employees,reporting);
   }
   return handler(event);
 };

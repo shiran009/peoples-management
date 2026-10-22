@@ -1,0 +1,36 @@
+{
+  "verifiedDate": "2026-10-22",
+  "migrationComplete": false,
+  "sourceSnapshot": {
+    "tables": 117,
+    "records": 7480,
+    "copyVerified": true
+  },
+  "hostedApi": "https://g8d9gmzyg5.execute-api.ap-southeast-2.amazonaws.com",
+  "features": {
+    "authentication": "deployed",
+    "peopleAndDashboardReads": "deployed; real signed-in dashboard verified",
+    "eimConfiguration": "35 read types; 15 lookup types writable",
+    "onboardingSubmission": "deployed with approval; local and cloud unit tests pass; authenticated production write not yet exercised",
+    "employeeDirectoryAndProfiles": "deployed with approval; real browser directory and detail verified",
+    "reportingHierarchyReads": "approved; deployment in progress",
+    "employeeWritesAndProfileApprovals": "pending",
+    "reportingAssignments": "pending",
+    "leaveWorkflows": "pending",
+    "attendanceWorkflows": "pending",
+    "performance": "pending",
+    "documentsAndContracts": "pending",
+    "accountPermissionManagement": "pending",
+    "assistantAndCustomFields": "pending",
+    "finalDataReconciliation": "pending"
+  },
+  "tests": {
+    "localPassed": 46,
+    "cloudShellPassed": 46
+  },
+  "knownGaps": [
+    "Legacy employee transition-history table does not exist in the imported snapshot",
+    "Employee profile custom fields still call the unmigrated assistant API"
+  ],
+  "mysqlRemovalSafe": false
+}

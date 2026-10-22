@@ -1,0 +1,2 @@
+const readTables=['employee_information_employees','employee_information_personal_details','employee_information_workstation_details','employee_information_contact_details','employee_information_resignation_details','employee_salary_histories','employee_information_bank_details','employee_profile_extras','user_module_permissions','employment_types','users','invites','onboarding_profiles','attendance_roster_assignments','designations'];
+module.exports={readTables};

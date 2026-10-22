@@ -1,0 +1,15 @@
+{
+  "feature": "onboarding form submission",
+  "account": "561633119560",
+  "region": "ap-southeast-2",
+  "table": "peopleshr-onboarding_profiles",
+  "newActions": ["dynamodb:PutItem"],
+  "condition": {"dynamodb:EnclosingOperation": "TransactWriteItems"},
+  "existingReads": "Scan on onboarding_profiles; GetItem on the migration marker",
+  "existingLock": "_system / HR_WRITE_LOCK on peoples-management-hr-data-v1",
+  "applicationScope": "authenticated account can submit only its own onboarding profile",
+  "noDeletePermission": true,
+  "noEmployeeTableWrites": true,
+  "noPixeltechAccess": true,
+  "enabledByDefaultInAws": false
+}

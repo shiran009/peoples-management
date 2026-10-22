@@ -107,3 +107,24 @@ No developer credentials are distributed in this repository.
 
 The legacy backend remains necessary for unmigrated workflows. Do not remove local
 MySQL, SQL backups, or assume every HR feature works with DynamoDB yet.
+
+
+## Migration work verified on 2026-10-22
+
+- Onboarding POST is deployed behind EnableOnboardingWrites=true, with the user's
+  approval for transactional PutItem on peopleshr-onboarding_profiles only. Shared
+  lock and revision conditions prevent concurrent duplicates and stale overwrites.
+  Real unauthenticated POST returns 401. A production authenticated save has not
+  been exercised against an actual candidate profile.
+- Employee directory, own profile and authorized employee detail reads are deployed
+  behind EnableEmployeeReads=true, with scoped read approval. The signed-in hosted
+  browser loaded all 28 active directory entries and an actual detail view.
+- The hosted dashboard loaded 28 employees and nine teams in a real signed-in session.
+- Reporting hierarchy reads have 46 passing tests locally and in CloudShell; consult
+  migration-status.json for their final deployment state.
+- The employee transition-history route remains unsupported because its legacy SQL
+  source table does not exist in the imported snapshot. Employee custom-field UI
+  still calls the unmigrated assistant endpoint; its visible error remains a known gap.
+- No production employee profile was edited during browser read verification.
+- MySQL removal remains unsafe until all remaining write workflows, files and final
+  reconciliation are complete. Feature progress is in migration-status.json.

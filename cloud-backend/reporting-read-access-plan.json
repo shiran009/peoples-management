@@ -1,0 +1,22 @@
+{
+  "feature": "reporting hierarchy reads",
+  "newTables": [
+    "peopleshr-reporting_hierarchy_levels",
+    "peopleshr-reporting_hierarchy_audit"
+  ],
+  "allReadTables": [
+    "peopleshr-employee_information_employees",
+    "peopleshr-employee_information_personal_details",
+    "peopleshr-users",
+    "peopleshr-employee_information_workstation_details",
+    "peopleshr-reporting_hierarchy_levels",
+    "peopleshr-reporting_hierarchy_audit"
+  ],
+  "actions": [
+    "dynamodb:Scan"
+  ],
+  "scope": "authenticated directory/tree without private email except admins; audit and unassigned admin-only",
+  "writes": false,
+  "pixeltechAccess": false,
+  "enabledByDefaultInAws": false
+}
